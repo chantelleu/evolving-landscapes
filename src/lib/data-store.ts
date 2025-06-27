@@ -1,6 +1,7 @@
 import { Goal, Task } from "./types";
 
-const LOCAL_STORAGE_KEY = "evolving-landscapes-goals";
+const LOCAL_STORAGE_GOALS_KEY = "evolving-landscapes-goals";
+const LOCAL_STORAGE_BIOME_KEY = "evolving-landscapes-biome";
 
 function generateUniqueId(): string {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -10,7 +11,7 @@ export function getGoals(): Goal[] {
   if (typeof window === "undefined") {
     return [];
   }
-  const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const data = localStorage.getItem(LOCAL_STORAGE_GOALS_KEY);
   if (data) {
     const parsedData: Goal[] = JSON.parse(data);
     // Convert createdAt strings back to Date objects
@@ -30,7 +31,21 @@ export function saveGoals(goals: Goal[]): void {
   if (typeof window === "undefined") {
     return;
   }
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(goals));
+  localStorage.setItem(LOCAL_STORAGE_GOALS_KEY, JSON.stringify(goals));
+}
+
+export function getBiome(): string | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+  return localStorage.getItem(LOCAL_STORAGE_BIOME_KEY);
+}
+
+export function saveBiome(biome: string): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  localStorage.setItem(LOCAL_STORAGE_BIOME_KEY, biome);
 }
 
 export function addGoal(title: string): Goal {
